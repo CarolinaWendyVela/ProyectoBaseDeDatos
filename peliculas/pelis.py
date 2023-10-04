@@ -3,17 +3,19 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from peliculas.db import get_db
+from flaskr.auth import login_required
+from flaskr.db import get_db
 
-bp = Blueprint('blog', __name__)
+bp = Blueprint('movie', __name__)
 
 @bp.route('/')
 def index():
     db = get_db()
-    posts = db.execute(
-        """SELECT title, release_year, description
-        FROM film
-        ORDER BY title ASC;"""
-
+    movies = db.execute(
+        "SELECT title, release_year, description FROM film ORDER BY title ASC;"
     ).fetchall()
-    return render_template('blog/index.html', posts=posts)
+    return render_template('movie/index.html', movies=movies)
+
+@bp.route('/detalle/<int:id>')
+def detalle(id):
+    pass

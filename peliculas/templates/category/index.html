@@ -1,0 +1,9 @@
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Categorias{% endblock %}</h1>
+{% endblock %} {% block content %}
+<ul>
+  {% for c in categorias %}
+  <li>{{c['name'] }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}
