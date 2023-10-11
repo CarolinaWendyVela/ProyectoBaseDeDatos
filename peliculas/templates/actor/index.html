@@ -3,7 +3,11 @@
 {% endblock %} {% block content %}
 <ul>
   {% for a in actores %}
-  <li>{{a['first_name'] }} {{a['last_name'] }}</li>
+  <li>
+    <a class="action" href="{{ url_for('actor.detalle', id=a['actor_id']) }}"
+      >{{a['first_name'] }} {{a['last_name'] }}</a
+    >
+  </li>
   {% endfor %}
 </ul>
 {% endblock %}

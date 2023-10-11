@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Detalle de Película{% endblock %}</h1>
+{% endblock %} {% block content %}
+<h2>Titulo:</h2>
+<p>{{ peli['title'] }}</p>
+<h2>Año:</h2>
+<p>{{ peli['release_year']}}</p>
+<h2>Descripción</h2>
+<p>{{ peli['description'] }}</p>
+<!-- aca agregar los valores de la tabla-->
+{% endblock %}

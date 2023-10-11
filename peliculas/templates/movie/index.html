@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Peliculas{% endblock %}</h1>
+{% endblock %} {% block content %}
+<ul>
+  {% for peli in movies %}
+  <li>
+    <a class="action" href="{{ url_for('movie.detalle', id=peli['film_id']) }}">
+      {{ peli['title'] }} ({{ peli['release_year'] }}) - {{ peli['description']
+      }}</a
+    >
+    {{ peli['title'] }} ({{ peli['release_year'] }}) - {{ peli['description'] }}
+    <!-- aca agregar los valores de la tabla-->
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% block header %}
+<h1>{% block title %}Detalle de Actores{% endblock %}</h1>
+{% endblock %} {% block content %}
+<h2>Nombre</h2>
+
+<p>{{ actor ['first_name'] }}</p>
+<h2>Apellido</h2>
+<p>{{ actor ['last_name'] }}</p>
+<!-- aca agregar los valores de la tabla-->
+{% endblock %}

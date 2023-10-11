@@ -14,3 +14,15 @@ def index():
     ).fetchall()
     return render_template('category/index.html', categorias=categorias)
 
+@bp.route('/detalle/<int:id>')
+def detalle(id):
+    db = get_db()
+    categoria = db.execute(
+    """SELECT first_name, last_name 
+        FROM  categoria
+        WHERE categoria_id = ?
+        ORDER BY first_name;""",
+        (id,)
+
+    ).fetchall()
+    return render_template('actor/detalle.html', categoria=categoria)
