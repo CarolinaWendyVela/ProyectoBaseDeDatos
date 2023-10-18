@@ -27,4 +27,11 @@ def detalle(id):
         ORDER BY title ASC;""",
       (id,)
     ).fetchone()
-    return render_template('movie/detalle.html', peli=peli)
+
+    actores = db.execute(
+        """SELECT a.first_name, a.last_name, a.actor_id
+FROM film_actor fa JOIN actor a ON a.actor_id = fa.actor_id
+WHERE fa.film_id = ?;""",
+        (id,)
+    ).fetchall()
+    return render_template('movie/detalle.html', peli=peli, actores=actores)

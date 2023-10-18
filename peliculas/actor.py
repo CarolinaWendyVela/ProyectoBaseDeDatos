@@ -18,11 +18,18 @@ def index():
 def detalle(id):
     db = get_db()
     actor = db.execute(
-        """SELECT first_name, last_name 
-        FROM actor 
-        WHERE actor_id = ?
-        ORDER BY first_name;""",
+       """SELECT actor_id, first_name, last_name 
+          FROM actor 
+          WHERE actor_id = ?
+          ORDER BY first_name""",
+          (id,)
+    ).fetchone()
+ 
+    peliculas = db.execute(
+        """SELECT f.film_id, f.title, f.release_year, fa.actor_id 
+            FROM film f JOIN film_actor fa ON f.film_id = fa.film_id 
+           WHERE fa.actor_id = ? """,
         (id,)
-
     ).fetchall()
-    return render_template('actor/detalle.html', actor=actor)
+
+    return render_template('actor/detalle.html', actor=actor, peliculas=peliculas)

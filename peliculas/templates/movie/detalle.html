@@ -8,4 +8,17 @@
 <h2>Descripción</h2>
 <p>{{ peli['description'] }}</p>
 <!-- aca agregar los valores de la tabla-->
+<h3>actores</h3>
+<ul>
+  {% for actor in actores %}
+  <li>
+    <a
+      class="action"
+      href="{{ url_for('actor.detalle', id=actor['actor_id']) }}"
+    >
+      {{ actor['first_name'] }} {{ actor['last_name'] }}</a
+    >
+  </li>
+  {% endfor %}
+</ul>
 {% endblock %}
