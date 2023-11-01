@@ -42,6 +42,7 @@ def create_app(test_config=None):
 
     from . import actor
     app.register_blueprint(actor.bp)
+    app.register_blueprint(actor.bpapi)
 
 
     from . import category

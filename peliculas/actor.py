@@ -1,18 +1,29 @@
-from flask import (Blueprint, flash, g, redirect, render_template, request, url_for)
+from flask import (Blueprint, flash, g, redirect, render_template, request, url_for, jsonify)
 from werkzeug.exceptions import abort
 
-from flaskr.db import get_db
+from peliculas.db import get_db
 
 bp = Blueprint('actor', __name__, url_prefix="/actor/")
+bpapi = Blueprint('api_actor', __name__, url_prefix="/api/actor/")
 
-@bp.route('/')
-def index():
+def listaDeActores():
     db = get_db()
     actores = db.execute(
         """SELECT actor_id, first_name, last_name FROM actor ORDER BY first_name;"""
 
     ).fetchall()
+    return actores
+
+@bp.route('/')
+def index():
+    actores = listaDeActores()
     return render_template('actor/index.html', actores=actores)
+
+@bpapi.route('/')
+def indexApi():
+    actores = listaDeActores()
+    return jsonify(actores=actores)
+
 
 @bp.route('/detalle/<int:id>')
 def detalle(id):
