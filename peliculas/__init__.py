@@ -34,15 +34,15 @@ def create_app(test_config=None):
 
     from . import pelis
     app.register_blueprint(pelis.bp)
-    app.add_url_rule('/', endpoint='index')
+    #app.add_url_rule('/', endpoint='index')
+    app.register_blueprint(pelis.bp_api)
 
     from . import language
     app.register_blueprint(language.bp)
 
-
     from . import actor
     app.register_blueprint(actor.bp)
-    app.register_blueprint(actor.bpapi)
+    app.register_blueprint(actor.bp_api)
 
 
     from . import category
