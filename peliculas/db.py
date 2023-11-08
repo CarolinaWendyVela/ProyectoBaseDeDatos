@@ -1,4 +1,5 @@
-import sqlite3
+import psycopg2#lo que agregue
+import psycopg2.extras#lo que agregue
 
 import click
 from flask import current_app, g
@@ -8,16 +9,17 @@ def dict_factory(cursor, row):
     fields = [column[0] for column in cursor.description]
     return {key: value for key, value in zip(fields, row)}
 
-
-def get_db():
-    if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        g.db.row_factory = dict_factory
-    return g.db
-
+def get_db(): #aca es el import del get_db
+   if 'db' not in g:
+       conn = psycopg2.connect(database="peliculas",
+                               host="127.0.0.1",
+                               user="postgres",
+                               password="postgres",
+                               port="5432")
+      
+       #g.db.row_factory = dict_factory #aca hice la modificacion del get_db / remplazar por cur = conn.cursor(cursor_factory = psycopg2.extras.DictCursor)
+       g.db = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+   return g.db
 
 def close_db(e=None):
     db = g.pop('db', None)

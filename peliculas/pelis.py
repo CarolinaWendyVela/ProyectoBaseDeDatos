@@ -53,13 +53,14 @@ WHERE fa.film_id = ?;""",
 @bp_api.route('/detalle/<int:id>')
 def detalleApi(id):
     db = get_db()
-    pelis = db.execute(
+    db.execute(
         """SELECT f.title, f.release_year, f.description 
         FROM film f
         WHERE f.film_id = ?
         ORDER BY title ASC;""",
       (id,)
-    ).fetchone()
+    )
+    pelis = db.fetchall()
 
     actores = db.execute(
         """SELECT a.first_name, a.last_name, a.actor_id
