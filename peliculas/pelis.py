@@ -9,10 +9,11 @@ bp_api = Blueprint('api_pelis', __name__, url_prefix="/api/pelis/")
 
 def listaDePelis():
     db = get_db()
-    Pelis = db.execute(
+    db.execute(
        "SELECT film_id, title, release_year, description FROM film ORDER BY title ASC;"
 
-    ).fetchall()
+    )
+    Pelis = db.fetchall()
     return Pelis
 
 
@@ -33,20 +34,21 @@ def index_api():
 @bp.route('/detalle/<int:id>')
 def detalle(id):
     db = get_db()
-    peli = db.execute(
+    db.execute(
         """SELECT f.title, f.release_year, f.description 
         FROM film f
-        WHERE f.film_id = ?
+        WHERE f.film_id = %s
         ORDER BY title ASC;""",
-      (id,)
-    ).fetchone()
+      (id,))
+    peli = db.fetchone()
 
-    actores = db.execute(
+    db.execute(
         """SELECT a.first_name, a.last_name, a.actor_id
 FROM film_actor fa JOIN actor a ON a.actor_id = fa.actor_id
-WHERE fa.film_id = ?;""",
+WHERE fa.film_id = %s;""",
         (id,)
-    ).fetchall()
+    )
+    actores = db.fetchall()
     return render_template('movie/detalle.html', peli=peli, actores=actores)
 
 
@@ -56,18 +58,19 @@ def detalleApi(id):
     db.execute(
         """SELECT f.title, f.release_year, f.description 
         FROM film f
-        WHERE f.film_id = ?
+        WHERE f.film_id = %s
         ORDER BY title ASC;""",
       (id,)
     )
     pelis = db.fetchall()
 
-    actores = db.execute(
+    db.execute(
         """SELECT a.first_name, a.last_name, a.actor_id
 FROM film_actor fa JOIN actor a ON a.actor_id = fa.actor_id
-WHERE fa.film_id = ?;""",
+WHERE fa.film_id = %s;""",
         (id,)
-    ).fetchall()
+    )
+    actores = db.fetchall()
     for actor in actores:
         actor["url"] = url_for("api_actor.detalleApi", id=actor["actor_id"], _external=True)    
     return jsonify(pelis=pelis, actores=actores)

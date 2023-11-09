@@ -4,7 +4,7 @@ import psycopg2.extras#lo que agregue
 import click
 from flask import current_app, g
 
-def dict_factory(cursor, row):
+def dict_factory(cursor, row): 
     """Arma un diccionario con los valores de la fila."""
     fields = [column[0] for column in cursor.description]
     return {key: value for key, value in zip(fields, row)}
